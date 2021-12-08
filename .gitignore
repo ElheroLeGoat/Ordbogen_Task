@@ -1,0 +1,9 @@
+# Eclipse project files
+.settings/
+.project
+.buildpath
+
+
+# Ignored app files
+app/models/cruddebugger.php
+
