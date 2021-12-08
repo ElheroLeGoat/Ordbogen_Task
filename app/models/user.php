@@ -8,21 +8,24 @@ require_once __DIR__ . '/../collector.php';
 
 class user extends crud
 {
-    function __construct($db_session, $id = 0, $table = Null)
+    function __construct($db_session, $id = 0)
     {
         $this->db_session = $db_session;
-        parent::__construct($id, 'users');
-        if (isset($_SESSION['userlogin']))
+        $this->table = 'users';
+               
+        if (isset($_SESSION['userlogin']) && $id !== 0)
         {
             $id = $_SESSION['userlogin']['id'];
             
-            if (!$this->validateSession($_SESSION['userlogin']['token'], $id))
+            if (!$this->validate_session())
             {
                 // session is not allowed and will therefore be nulled.
                 unset($_SESSION['userlogin']);
-                $id = Null;
+                $id = 0;
             }
         }
+        
+        parent::__construct($id, 'users');
     }
     
     public function login($username, $password)
@@ -45,9 +48,7 @@ class user extends crud
         
         $this->generate_token();
                    
-        $_SESSION['id'] = $this->id;
-        $_SESSION['token'] = $this->token;
-        
+        $_SESSION['userlogin'] = array("id"=>$this->id, "token"=>$this->token);
         return True;
     }
     
@@ -97,8 +98,22 @@ class user extends crud
         return array("status"=>True);
     }
     
-
-    
+    public function validate_session()
+    {
+        /**
+         * Used to validate an session
+         * 
+         * Upon login a token is saved to the id, this method will check the token & id to make sure they match
+         * before granting access to anything.
+         * 
+         * @return boolean
+         */
+        $id    = $_SESSION['userlogin']['id'];
+        $token = $_SESSION['userlogin']['token'];
+        
+        return !$this->read(array('id'=>$id, 'token'=>$token), False) ? False : True;
+    }
+        
     private function validate_string(array $params, $string)
     {
         /**

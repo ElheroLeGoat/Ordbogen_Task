@@ -1,7 +1,6 @@
 <?php
 
 namespace app;
-
 require_once __DIR__ . "/configs/definitions.php";
 
 
