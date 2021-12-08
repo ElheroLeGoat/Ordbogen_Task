@@ -1,0 +1,49 @@
+#login_form
+{
+    height: 520px;
+    width: 400px;
+    background-color: rgba(0,0,0,0.35);
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border-color: rgba(0,0,0,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    padding: 50px 35px;
+}
+#login_form *
+{
+    font-family: 'Poppins',sans-serif;
+    color: #eee;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+#login_form h3, #login_form h4
+{
+	text-align:center;
+}
+#login_form input
+{
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+#login_form input[type="submit"], #login_form input[type="button"]
+{
+	background-color: rgba(48, 48, 48, 0.9);
+	margin: 20px 0px 20px 0px;
+}
+
+.background_image
+{
+	z-index:-1;
+}

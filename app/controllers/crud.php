@@ -63,12 +63,14 @@ abstract class crud
         return  $affected_rows > 0 ? true : false;
     }
     
-    function read(array $params = Null)
+    function read(array $params = Null, bool $savetoself = True)
     {
         /**
          * A method used to read a single row in the database
          * 
          * @var $params Array - An array container the search parameters in case id isn't present.
+         * @var $savetoself Bool - Determine if the read should save to the class or not.
+         * 
          * @since 1.0.0
          * @return $this
          * @throws \InvalidArgumentException
@@ -107,6 +109,11 @@ abstract class crud
         if ($result == Null)
         {
             return False;
+        }
+        
+        if (!$savetoself)
+        {
+            return True;
         }
         
         foreach ($result as $property => $value)
