@@ -6,6 +6,14 @@ use controllers\crud;
 
 require_once __DIR__ . '/../collector.php';
 
+
+/**
+ * The user Model, controls the entire crud of users.
+ * 
+ * @author ElHeroLeGoat
+ * @version 1.0.1
+ *
+ */
 class user extends crud
 {
     function __construct($db_session, $id = 0)
@@ -38,7 +46,7 @@ class user extends crud
          * @param string $username - the username
          * @param string $password - the password
          * 
-         * @since 1.0.1
+         * @since 1.0.0
          * @return Boolean
          */
         if (!$this->read(array("username"=>$username)) || !password_verify($password, $this->password))
@@ -53,6 +61,11 @@ class user extends crud
     }
     public function logout()
     {
+        /**
+         * Simple yet effective logout method.
+         * 
+         * @since 1.0.1
+         */
         unset($_SESSION['userlogin']);
     }
     
@@ -68,10 +81,11 @@ class user extends crud
          * @param string $password - The users password.
          * @param string $email    - The users email address.
          * 
-         * @since 1.0.1
          * @return array - (bool) status, (mixed) *reason, (array) *params.
          * reason: (string) the reason why it failed or Null
          * params: check models\user->validate_string()
+         * 
+         * @since 1.0.0
          */
         $username_validation = $this->validate_string(array("maxlen"=>64, "minlen"=>5), $username);
         $password_validation = $this->validate_string(array("maxlen"=>64, "minlen"=>8,
@@ -111,6 +125,8 @@ class user extends crud
          * before granting access to anything.
          * 
          * @return boolean
+         * 
+         * @since 1.0.0
          */
         $id    = $_SESSION["userlogin"]["id"];
         $token = $_SESSION["userlogin"]["token"];
@@ -130,9 +146,10 @@ class user extends crud
          * maxlen, minlen, require_case, require_int, require_special, email
          * @param string $string - The string to validate.
          * 
-         * @since 1.0.1
          * @return $returnval - Returns an array containing (bool) Status and (bool) where in the validation it failed: 
          * maxlen, minlen, case, int, special, email
+         * 
+         * @since 1.0.1
          */
         
         $returnval = array("status"=> True);
@@ -186,8 +203,9 @@ class user extends crud
          * 
          * Used to generate a Token for the current login session.
          * 
-         * @since 1.1.0
          * @return Boolean
+         * 
+         * @since 1.0.0
          */
         $this->token = md5(bin2hex(openssl_random_pseudo_bytes(32)));
         

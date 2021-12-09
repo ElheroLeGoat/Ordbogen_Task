@@ -4,11 +4,12 @@ namespace controllers;
 
 
 /**
- * An abstract CRUD class used to as a parent to models,
+ * An abstract CRUD class used as a parent to models,
  * 
  * The model will be in charge of 
- * @author bruger
+ * @author ElHeroLeGoat
  *
+ * @version 1.0.0
  */
 abstract class crud
 {
@@ -27,8 +28,9 @@ abstract class crud
         /**
          * Create method to insert new data into the database
          * 
-         * @since 1.0.0
          * @return Boolean
+         * 
+         * @since 1.0.0
          */
         $properties = get_object_vars($this);
         unset($properties["table"], $properties["id"], $properties["db_session"]);
@@ -69,9 +71,10 @@ abstract class crud
          * @var $params Array - An array container the search parameters in case id isn't present.
          * @var $savetoself Bool - Determine if the read should save to the class or not.
          * 
-         * @since 1.0.0
          * @return $this
          * @throws \InvalidArgumentException
+         * 
+         * @since 1.0.0
          */
         if ($this->id == Null && empty($params))
         {
@@ -127,8 +130,9 @@ abstract class crud
         /**
          * A method that takes the classes normal parameters and updates the database.
          * 
-         * @since 1.0.0
          * @return Boolean
+         * 
+         * @since 1.0.0
          */
         $properties = get_object_vars($this);
         unset($properties["table"], $properties["id"], $properties["db_session"]); 
@@ -161,8 +165,9 @@ abstract class crud
         /**
          * A simple method to delete current model from the database
          * 
-         * @since 1.0.0
          * @return Boolean
+         * 
+         * @since 1.0.0
          */
         
         $stmt = $this->db_session->prepare("DELETE FROM {$this->table} WHERE id = ?");
@@ -176,6 +181,13 @@ abstract class crud
     
     private function getdbtype($value)
     {
+        /**
+         * used to get the correct type for bind_param
+         * 
+         * @param mixed $value - the Value to get the type from.
+         * 
+         * @since 1.0.0
+         */
         $type = gettype($value);
         
         switch ($type)

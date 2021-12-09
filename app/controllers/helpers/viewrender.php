@@ -1,8 +1,23 @@
 <?php
+/**
+ * @todo Finish up the viewrender
+ * 
+ * Rendering of views should be 100% dynamic with ease.
+ * in the viewrenders current state it relies on a director (render.php)
+ * Also a router would function great with this type of setup.
+ */
+
 namespace controllers\helpers;
 
 require_once __DIR__ .'/../../configs/definitions.php';
 
+
+/**
+ * A strict Viewrender used to find and render the current view.
+ * 
+ * @author ElHeroLeGoat
+ * @version 1.0.0
+ */
 final class viewrender
 {
     protected string $view;
@@ -15,6 +30,17 @@ final class viewrender
     
     private function get_views()
     {
+        /**
+         * gets the views from the view folder.
+         * 
+         * This method will retrieve any view located in the views folder.
+         * 
+         * @todo When modules/plugins is going to be introduced the get_views needs to take that into account.
+         * 
+         * @return Null
+         * 
+         * @since 1.0.0
+         */
         $files = array_values(array_diff(scandir(VIEWS), [".", ".."]));        
         for ($x = 0; $x < count($files); $x++)
         {
@@ -32,9 +58,9 @@ final class viewrender
          * 
          * @param string/array $view        - Either the view to be rendered or the data to be passed as an API
          * @param bool         $pass_as_api - Defaults to False used to render the page in JSON.
-         * 
-         * @since 1.0.1
          * @return None
+         * 
+         * @since 1.0.0
          */
         if (!$pass_as_api)
         {

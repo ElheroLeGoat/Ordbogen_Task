@@ -15,7 +15,8 @@ spl_autoload_register(function ($class_name) {
 // General database connection. $dbi from config.php
 $dbsess = new \mysqli($dbi["host"], $dbi["username"], $dbi["passwrd"], $dbi["scheme"]);
 
+// $debug from config.php
 if ($dbsess->connect_errno && $debug)
 {
-    echo "Failed to Connect to the database" . $mysqli->connect_error;
+    echo "Failed to Connect to the database" . $dbsess->connect_error;
 }

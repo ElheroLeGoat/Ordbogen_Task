@@ -1,4 +1,12 @@
 <?php
+/**
+ * @todo Create a proper rendering method.
+ * 
+ * This method is not going to cut it in a full production site,
+ * should be relatively simple.
+ * 
+ */
+
 // Namespace and used files/projects.
 namespace app;
 use models;
@@ -13,7 +21,8 @@ $engine = new controllers\helpers\viewrender();
 // $dbsess from collector.php
 $user = new models\user($dbsess);
 
-if (isset($_SESSION["userlogin"]) && isset($_GET['logout']))
+// Check if the user attempts to logout
+if (isset($_SESSION["userlogin"]) && isset($_GET["logout"]))
 {
     $user->logout();
     header("Location: /");

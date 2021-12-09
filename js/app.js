@@ -3,7 +3,6 @@ const axios = window.axios;
 
 new Vue({
 	el: ".login_form",
-	
 	data:
 	{
 		configs:
@@ -25,7 +24,6 @@ new Vue({
 			password: ''
 		}
 	},
-	
 	methods : 
 	{
 		switchForm: function(e)
@@ -46,10 +44,7 @@ new Vue({
 				this.configs.loginheader = 'Register';
 				this.configs.errors = [];
 			}
-			
-			this.configs.registerform = !this.configs.registerform;
-			
-			
+			this.configs.registerform = !this.configs.registerform;	
 		},
 		exec: function(e)
 		{
@@ -72,7 +67,6 @@ new Vue({
 			axios.post('index.php', reg.data)
 			.then((res) =>
 			{	
-				console.log(res);
 				if (res.data.success !== undefined && res.data.success == false)
 				{
 					if (typeof(res.data.reason) == 'object')
@@ -107,7 +101,6 @@ new Vue({
 		prepare: function(type)
 		{
 			returnval =  {data: {username: this.form.username, password: this.form.password, form: this.configs.loginheader}}
-			
 			if (type == 'login')
 			{
 				returnval.success = this.checkLogin();

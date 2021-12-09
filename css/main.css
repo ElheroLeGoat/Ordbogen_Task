@@ -45,11 +45,7 @@
 	z-index:-1;
 }
 
-.hidden
-{
-	display:none;
-}
-
+/* back arrow */
 .arrow {
   border: solid #fff !important;
   border-width: 0 5px 5px 0 !important;
@@ -69,6 +65,7 @@
 	left:10px;
 }
 
+/* bs tooltip */
 .tooltip-inner {
     white-space:pre-wrap;
     max-width:none;
