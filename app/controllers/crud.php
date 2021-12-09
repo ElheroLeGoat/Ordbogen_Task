@@ -31,7 +31,7 @@ abstract class crud
          * @return Boolean
          */
         $properties = get_object_vars($this);
-        unset($properties['table'], $properties['id'], $properties['db_session']);
+        unset($properties["table"], $properties["id"], $properties["db_session"]);
         
         $sql = "INSERT INTO `{$this->table}` ( ";
         $types = '';
@@ -51,9 +51,7 @@ abstract class crud
         }
         
         $sql = rtrim($sql, ', ') . ") VALUES (" . rtrim($values, ', ') . ")";
-       
-        print($sql);
-        
+               
         $stmt = $this->db_session->prepare($sql);
         $stmt->bind_param($types, ...$params);
         $stmt->execute();
@@ -133,7 +131,7 @@ abstract class crud
          * @return Boolean
          */
         $properties = get_object_vars($this);
-        unset($properties['table'], $properties['id'], $properties['db_session']); 
+        unset($properties["table"], $properties["id"], $properties["db_session"]); 
         
         $sql = "UPDATE `{$this->table}` SET ";
         $types = '';

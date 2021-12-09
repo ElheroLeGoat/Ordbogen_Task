@@ -33,19 +33,25 @@ final class viewrender
          * @param string/array $view        - Either the view to be rendered or the data to be passed as an API
          * @param bool         $pass_as_api - Defaults to False used to render the page in JSON.
          * 
-         * @since 1.0.2
+         * @since 1.0.1
          * @return None
          */
         if (!$pass_as_api)
         {
+            $pass_to_file = $data["pass"];
             try {
-                include_once VIEWS . '/' . $this->views[$data];
+                include_once VIEWS . '/' . $this->views[$data["view"]];
                 return;
             } catch (\Exception $e) {
                 # Unable to render requested view Defaults to index.
                 include_once VIEWS . '/index.php';
             }
 
+        }
+        else
+        {
+            header('content-type:application/json');
+            echo json_encode($data);
         }
         
     }

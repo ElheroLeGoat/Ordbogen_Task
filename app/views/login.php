@@ -18,21 +18,33 @@
 	<body>
 	<img src="images/background.jpg" class="background_image w-100 h-100 position-absolute">
 	<div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
-		<form id="login_form" @submit="login">
-			<h3>Login</h3>
-			<div class="error_list" v-if="errors.length">
-				
-			</div>
-			<label for="username">Username:</label>
-			<input v-model="form.username" type="text" id="username" name="username" placeholder="Email or username">
-			<label for="password">Password:</label>
-			<input v-model="form.password" type="text" id="password" name="password" placeholder="password">
-			<input type="submit" id="login" value="Login">
-			<h4>Don't have an account yet?</h4>
-			<input type="button" id="register" value="Register now!">
+		<form class="login_form form_design" v-on:submit.prevent="exec">		
+		<div class="back_arrow" v-if="configs.registerform" v-on:click="switchForm()">
+			<i class="arrow"></i>
 		</div>
+			<h3>{{ configs.loginheader }}</h3>
+			<label for="username">Username:</label>
+			<input v-model="form.username" type="text" id="username" name="username" placeholder="Username" :value="[[ form.username ]]" data-toggle="tooltip" data-placement="bottom" :data-bs-original-title="[[ tooltips.username ]]">
+			<label for="password">Password:</label>
+			<input v-model="form.password" type="password" id="password" name="password" placeholder="password" :value="[[ form.password ]]" data-toggle="tooltip" data-placement="bottom" :data-bs-original-title="[[ tooltips.password ]]">
+			<div v-if="configs.registerform">
+    			<label for="repeat_password">repeat Password:</label>
+    			<input v-model="form.repeat" type="password" id="repeat_password" name="repeat_password" placeholder="Repeat password" :value="[[ form.repeat ]]">			
+    			<label for="email">Email: </label>
+    			<input v-model="form.email" type="text" id="email" name="email" placeholder="example@example.com" :value="[[ form.email ]]">
+			</div>
+			<input type="submit" id="login" :value="[[ configs.loginheader ]]">
+			<h4 v-if="!configs.registerform">Don't have an account yet?</h4>
+			<input type="button" id="register" v-if="!configs.registerform" v-on:click="switchForm()" value="Register now!">
+		</form>
 	</div>
 	<!--  App Loading -->
 	<script src="js/app.js"></script>
+	<script>
+	var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+	</script>
 	</body>
 </html>

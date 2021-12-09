@@ -13,7 +13,7 @@ spl_autoload_register(function ($class_name) {
 });
 
 // General database connection. $dbi from config.php
-$dbsess = new \mysqli($dbi['host'], $dbi['username'], $dbi['passwrd'], $dbi['scheme']);
+$dbsess = new \mysqli($dbi["host"], $dbi["username"], $dbi["passwrd"], $dbi["scheme"]);
 
 if ($dbsess->connect_errno && $debug)
 {

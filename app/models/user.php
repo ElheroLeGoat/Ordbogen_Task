@@ -13,14 +13,14 @@ class user extends crud
         $this->db_session = $db_session;
         $this->table = 'users';
                
-        if (isset($_SESSION['userlogin']) && $id !== 0)
+        if (isset($_SESSION["userlogin"]) && $id !== 0)
         {
-            $id = $_SESSION['userlogin']['id'];
+            $id = $_SESSION["userlogin"]["id"];
             
             if (!$this->validate_session())
             {
                 // session is not allowed and will therefore be nulled.
-                unset($_SESSION['userlogin']);
+                unset($_SESSION["userlogin"]);
                 $id = 0;
             }
         }
@@ -41,15 +41,19 @@ class user extends crud
          * @since 1.0.1
          * @return Boolean
          */
-        if (!$this->read(array("username"=>$username)) && !password_verify($password, $this->password))
+        if (!$this->read(array("username"=>$username)) || !password_verify($password, $this->password))
         {
             return False;
         }
         
         $this->generate_token();
                    
-        $_SESSION['userlogin'] = array("id"=>$this->id, "token"=>$this->token);
+        $_SESSION["userlogin"] = array("id"=>$this->id, "token"=>$this->token);
         return True;
+    }
+    public function logout()
+    {
+        unset($_SESSION['userlogin']);
     }
     
     public function register($username, $password, $email)
@@ -76,19 +80,19 @@ class user extends crud
             "require_special"=>True), $password);
         $email_validation = $this->validate_string(array("email"=>True), $email);
         
-        if (!$username_validation["success"] || !$password_validation['success'] || $email_validation)
+        if (!$username_validation["status"] || !$password_validation["status"] || !$email_validation["status"])
         {
             return array("status"=>False, 
                          "reason"=>Null, 
-                         "params"=>array($username_validation, $password_validation, $email_validation));
+                         "params"=>array('Username' => $username_validation, "Password" => $password_validation, "Email" => $email_validation));
         }
-        if ($this->read(array('username'=>$username), False) && $this->read(array('email'=>$email), False))
+        if ($this->read(array('username'=>$username), False) || $this->read(array('email'=>$email), False))
         {
             return array("status"=>False, "reason"=>"Username or email does already exist");
         }
         
         $this->username = $username;
-        $this->password = password_hash($password);
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
         $this->email = $email;
         
         if (!$this->create())
@@ -108,10 +112,10 @@ class user extends crud
          * 
          * @return boolean
          */
-        $id    = $_SESSION['userlogin']['id'];
-        $token = $_SESSION['userlogin']['token'];
+        $id    = $_SESSION["userlogin"]["id"];
+        $token = $_SESSION["userlogin"]["token"];
         
-        return !$this->read(array('id'=>$id, 'token'=>$token), False) ? False : True;
+        return !$this->read(array('id'=>$id, 'token'=>$token)) ? False : True;
     }
         
     private function validate_string(array $params, $string)
@@ -134,48 +138,42 @@ class user extends crud
         $returnval = array("status"=> True);
         
         // Character length Validation
-        if (isset($params['maxlen']) && strlen($string) > $params['maxlen'])
+        if (isset($params["maxlen"]) && strlen($string) > $params["maxlen"])
         {
             $returnval["status"] = False;
-            $returnval["maxlen"] = True;
+            $returnval["maxlen"] = '_string_ Must be below ' . $params["maxlen"] . ' characters';
         }
-        if (isset($params['minlen']) && strlen($string) < $params['minlen'])
+        if (isset($params["minlen"]) && strlen($string) < $params["minlen"])
         {
             $returnval["status"] = False;
-            $returnval["minlen"] = True;
+            $returnval["minlen"] = '_string_ Must be above ' . $params["minlen"] . ' characters';
         }
         
         // Character Requirements
-        if (isset($params['require_case']) && $params['require_case'] && 
+        if (isset($params["require_case"]) && $params["require_case"] && 
             !preg_match('/(?=.*?[A-Z])(?=.*?[a-z])/', $string))
         {
             $returnval["status"] = False;
-            $returnval["case"]   = True;
+            $returnval["case"]   = '_string_ must contain both upper and lowercase letters';
         }
-        if (isset($params['require_int']) && $params["require_int"] &&
+        if (isset($params["require_int"]) && $params["require_int"] &&
             !preg_match('/(?=.*?[0-9])/', $string))
         {
             $returnval["status"] = False;
-            $returnval["int"]   = True;
+            $returnval["int"]   = '_string_ must contain numbers';
         }
-        if (isset($params['require_int']) && $params["require_int"] &&
-            !preg_match('/(?=.*?[0-9])/', $string))
-        {
-            $returnval["status"] = False;
-            $returnval["int"]   = True;
-        }
-        if (isset($params['require_special']) && $params['require_special'] &&
+        if (isset($params["require_special"]) && $params["require_special"] &&
             !preg_match('/(?=.*?[!@#$%*])/', $string))
         {
             $returnval["status"] = False;
-            $returnval["special"] = True;
+            $returnval["special"] = '_string_ must contain atleast one of the following: !@#$%*';
         }
         
         // Email Validation
-        if (isset($params['email']) && $params['email'] && !filter_var($string, FILTER_VALIDATE_EMAIL))
+        if (isset($params["email"]) && $params["email"] && !filter_var($string, FILTER_VALIDATE_EMAIL))
         {
             $returnval["status"] = False;
-            $returnval["email"] = True;
+            $returnval["email"] = 'Invalid email format.';
         }
         
         return $returnval;    

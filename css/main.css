@@ -1,19 +1,16 @@
-#login_form
+/* Login style */
+.form_design
 {
-    height: 520px;
+    min-height: 520px;
     width: 400px;
     background-color: rgba(0,0,0,0.35);
-    position: absolute;
-    transform: translate(-50%,-50%);
-    top: 50%;
-    left: 50%;
     border-radius: 10px;
     backdrop-filter: blur(10px);
     border-color: rgba(0,0,0,0.1);
     box-shadow: 0 0 40px rgba(8,7,16,0.6);
     padding: 50px 35px;
 }
-#login_form *
+.form_design *
 {
     font-family: 'Poppins',sans-serif;
     color: #eee;
@@ -21,11 +18,11 @@
     outline: none;
     border: none;
 }
-#login_form h3, #login_form h4
+.form_design h3, .form_design h4
 {
 	text-align:center;
 }
-#login_form input
+.form_design input
 {
     display: block;
     height: 50px;
@@ -37,7 +34,7 @@
     font-size: 14px;
     font-weight: 300;
 }
-#login_form input[type="submit"], #login_form input[type="button"]
+.form_design input[type="submit"], .form_design input[type="button"]
 {
 	background-color: rgba(48, 48, 48, 0.9);
 	margin: 20px 0px 20px 0px;
@@ -46,4 +43,33 @@
 .background_image
 {
 	z-index:-1;
+}
+
+.hidden
+{
+	display:none;
+}
+
+.arrow {
+  border: solid #fff !important;
+  border-width: 0 5px 5px 0 !important;
+  display: inline-block;
+  padding: 3px !important;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+ }
+.back_arrow
+{
+	padding:5px 10px 5px 13px;
+	border-radius:100%;
+	cursor:pointer;
+	background-color: rgba(48, 48, 48, 0.4);
+	position:absolute !important;
+	top:10px;
+	left:10px;
+}
+
+.tooltip-inner {
+    white-space:pre-wrap;
+    max-width:none;
 }
